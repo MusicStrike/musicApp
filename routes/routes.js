@@ -4,7 +4,7 @@ const router = express.Router();
 const rp = require('request-promise');
 const cheerio = require('cheerio');
 
-router.get('/',function(req, res){
+router.get('/lyrics',function(req, res){
   res.render('pages/index');
 });
 

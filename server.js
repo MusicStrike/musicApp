@@ -45,10 +45,45 @@ function Music(singer){
     this.album_title=singer.album.title
 } 
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 app.get('/', (req,res) => {
   
      res.render('pages/index');
  })
+
 app.get('*', (req, res) => {
 
     res.status(404).render('./pages/error', { erorr: '404 NOT FOUND' })

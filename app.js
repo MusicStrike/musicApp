@@ -12,6 +12,6 @@ app.set('view engine','html');
 app.use(bodyparser.json());
 app.use('/',routes);
 
-app.listen(2000,function(){
-  console.log('Server Started on Port 2000 ');
+app.listen(8080,function(){
+  console.log('Server Started on Port 8080 ');
 });
