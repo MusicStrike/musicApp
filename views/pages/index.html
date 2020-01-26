@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <base href="/"> 
+  <link  href="/public/style.css"></link>
+    <title>Lyrics app</title>
+    <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js">
+    </script>
+    <meta charset="utf-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+   
+  </head>
+  <body>
+    <div class="container">
+      <div >
+        <h1 >Lyrics app</h1>
+        <br>
+        <form action="javascript:Search()" >
+          <div class=>
+            <label for="query" >Song name</label>
+            <input placeholder="Search Music .." autocomplete="off" type="text" id="query" >
+          </div>
+          <button type="submit" >Search</button>
+        </form>
+      </div>
+      <br>
+
+      <div >
+        <pre id="lyrics"></pre>
+      </div>
+    </div>
+    <footer >
+ 
+    </footer>
+    <script src="/topchart.js">console.log('hi there')</script>
+    <script type="text/javascript">
+    function Search(){  
+    var query=$('#query').val();
+    $('#lyrics').css('display','none')
+    console.log(query);
+      $.get('/getmusic/'+query,function(data,status){
+        // alert('Data Received');
+        console.log(data);
+        if(data.length<3)
+        $("#lyrics").text('Lyrics Not Found ;(');
+        else
+        $("#lyrics").text(data);
+        $('#lyrics').css('display','block')
+      });
+    }
+
+    document.getElementById('query').onkeypress = function(data){
+      console.log('hello',Keyboard)
+        if (!Keyboard){ Keyboard= window.event};
+        var keyCode = Keyboard.keyCode || Keyboard.which;
+        if (keyCode == '13'){
+       
+          Search();
+          return false;
+        }
+    }
+    </script>
+ 
+  </body>
+</html>
