@@ -44,12 +44,49 @@ function Music(singer){
     this.album_cover_image=singer.album.cover_medium
     this.album_title=singer.album.title
 } 
-})
+});
+
+//=============top chart============
 
 
 
 
+app.get('/', (req, res) => {
+    var options = {
+      method: 'GET',
+      url: 'https://30-000-radio-stations-and-music-charts.p.rapidapi.com/rapidapi',
+      qs: {chartsweek: '1'},
+      headers: {
+        'x-rapidapi-host': '30-000-radio-stations-and-music-charts.p.rapidapi.com',
+        'x-rapidapi-key': 'eecd5fae1amsh533358a9cbb816dp1e354cjsn4ffd1b1a115c'
+      }
+    };
+    
+    request(options, function (error, response, body) {
+        if (error) throw new Error(error);
+    
+      
+     
+      var obj = JSON.parse(body);
+      console.log("this isnt",obj)
 
+
+      let topSong = obj.results.map(song => new TopChart(song))
+      res.render('pages/index' , {topSong:topSong});
+    //   obj.results.forEach(function(item){
+    //     console.log('123',item.artist_song,"song", item.title_song)
+    //     res.render(item.artist_song,"song", item.title_song)
+      })
+      function TopChart(song){
+          console.log("this is in constructor",song.artist_song)
+        this.artist_song=song.artist_song
+        this.title_song=song.title_song
+      
+    } 
+    
+    });
+
+// })
 
 
 
