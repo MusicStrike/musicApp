@@ -13,5 +13,5 @@ app.use(bodyparser.json());
 app.use('/',routes);
 
 app.listen(2000,function(){
-  console.log('Server Started on Port 2000 ...');
+  console.log('Server Started on Port 2000 ');
 });
