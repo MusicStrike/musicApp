@@ -5,10 +5,10 @@
 3. Shihab Shteiwi
 
 ## Overview
-this is an application to get lyrics,global topchart and Data about the singer and songs.
+This is an application to get lyrics, global topchart and Data about the singer and songs.
 
 ## Getting started
-using Web scrapping,APIS and DataBase.
+Using Web scrapping, APIS and DataBase.
 
 ## Architecture
 #### Js.
@@ -18,11 +18,11 @@ using Web scrapping,APIS and DataBase.
 #### jQuery liberary.
 
 ## User Stories
-see it here 
+See it here 
 https://trello.com/b/Y9LIK7uz/music-app
 
 
-##API's used
+## API's used
 
 1. https://developers.deezer.com/api
 2. https://www.last.fm/api/
