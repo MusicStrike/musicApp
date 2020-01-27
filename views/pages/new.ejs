@@ -1,16 +1,18 @@
 <!DOCTYPE html>
 <html>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link href="/views/styles/style.css" rel="stylesheet" type="text/css" />
+    <link rel="stylesheet" href="/styles/style.css" type="text/css">
     <script src="https://kit.fontawesome.com/a177902e94.js" crossorigin="anonymous"></script>
     <!-- <link href="/styles/base.css" rel="stylesheet" type="text/css" />
     <link href="/styles/layout.css" rel="stylesheet" type="text/css" />
     <link href="/styles/modules.css" rel="stylesheet" type="text/css" /> -->
     <title>Music Striks</title>
 </head>
+
 <body>
     <header>
         <a href="/">
@@ -19,24 +21,43 @@
         <a href="#"><i class="fab fa-facebook-f"></i></a>
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
+        <h2>
+            <h4>Saved Songs</h4>
+        </h2>
     </header>
     <section>
         <ul>
             <% list.forEach(song => { %>
-            <li>
+            <li class="book-items" data-book-id="<%= song.id %>">
                 <h2 class="title"><%= song.title %></h2>
                 <!-- <h2 class="singer"><%= song.artist %></h2> -->
-                <img src=<%= song.album_cover_image%>>
+                <img src='<%= song.album_cover_image%>'>
                 <audio controls>
                     <source src="<%= song.preview_mp3 %>" type="audio/mpeg">
                 </audio>
                 <h3 class="album"><%= song.album_title%></h3>
-                <form action="/song/<%= song.id%>" method="GET">
-                    <button type="submit">Add To Playlist</button>
+                <!-- <form action="/song/<%= song.id%>" method="GET"> -->
+                <form action="/myplaylist" method="GET">
+
+                    <input class="hidden" type="text" name="title" value="<%= song.title %>">
+                    <input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
+                        value="<%= song.album_cover_image %>">
+                    <input class="hidden" type="text" name="artistName" id="artistName" value="<%= song.artistNameb %>">
+                    <input class="hidden" type="text" name="preview_mp3" id="preview" value="<%= song.preview_mp3 %>">
+                    <input class="hidden" type="text" name="album_title" id="album_title"
+                        value="<%= song.album_title %>">
+                    <button type="submit" id="addtodatabase">Add To Playlist</button>
                 </form>
             </li>
             <% }) %>
         </ul>
     </section>
+    <script>
+        document.getElementById('addtodatabase').onclick = function () { myFunction(); };
+        function myFunction() {
+            alert('added thanks a lot ');
+        }
+    </script>
 </body>
+
 </html>

@@ -1,0 +1,9 @@
+.hidden{
+    display: none;
+}
+body{
+    background-color: aqua;
+}
+#hiddenform{
+    display: none;
+}

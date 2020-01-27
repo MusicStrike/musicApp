@@ -20,14 +20,61 @@
         <legend>
             SEARCH SONG OR SINGER
         </legend>
-    <form action="/test" method="GET" >
+        <!-- <form action="/test" method="GET" id="SearchForm" ></form> -->
+    <form id="SearchForm" >
         <br>
-        <input type="text" name="input" placeholder="Name here" required>
+        <input type="text" name="input" placeholder="Name here" id="searchInput" required>
         <p>Please select your type</p>
         <!-- <input  type="radio" name="select" required>SINGER <br><br>  -->
-        <button type="submit">submit</button>
+        <button id="myDIV"type="submit">submit</button>
         </fieldset>
     </form>
+    <div id="searchResult"></div>
+<!-- ch1-->
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+<script>
+       $(document).ready(function() { 
+            $(document).on('submit','#SearchForm',function(e){
+                var searchInput = $('#searchInput').val();
+                e.preventDefault();
+                $.ajax({
+                url: `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchInput}`,
+                type: 'GET',
+                headers: {
+                    'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
+                    'x-rapidapi-key': 'b7c9ddf4dcmsh3fed6859a77bf85p11dd80jsn396438f74ee5'
+                },
+                success: function(res) {
+                    let container = $("#searchResult");
+                    var searchResult =`<ul>`;
+                    console.log(res);
+                    for(let i = 0 ; i< res.data.length ; i++ ){
+                        searchResult += `<li><h2 class='title'>${res.data[i].title}</h2></li>
+                            <img src='${res.data[i].album.cover_medium}'>
+                            <audio controls>
+                              <source src='${res.data[i].preview}' type="audio/mpeg">
+                            </audio>
+                            <h3 class="album">${res.data[i].album.title}</h3>
+                            <form action="/myplaylist" method="GET">
+                            <input class="hidden" type="text" name="title" value="${res.data[i].title}">
+                            <input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
+                                value="${res.data[i].album.cover_medium}">
+                            <input class="hidden" type="text" name="artistName" id="artistName" value="${res.data[i].artist.name}">
+                            <input class="hidden" type="text" name="preview_mp3" id="preview" value="${res.data[i].preview}">
+                            <input class="hidden" type="text" name="album_title" id="album_title"
+                                value="${res.data[i].album.title}">
+                            <button type="submit" id="addtodatabase">Add To Playlist</button>
+                        </form>
+                            `;
+                        
+                    }
+                    searchResult += `</ul>`
+                    container.html(searchResult)
+                }
+            });
+            });
+        }) 
+</script>
     <br>
     <div style="overflow: scroll; height: 450px; width:300 ;">
        <h1>top chart here</h1> 
@@ -39,6 +86,6 @@
             <% }); %>
         </ol>
     </div>
-  
+
 </body>
 </html>
