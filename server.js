@@ -16,10 +16,10 @@ app.use(express.urlencoded({ extended: true, }));
 app.use(express.static('public'));
 
 app.get('/myplaylist', addtodatabase);
-app.get('/songs/show/:id', getsong);//when we want to view details
+// app.get('/songs/show/:id', getsong);//when we want to view details
 app.get('/viewmylist', getsongs);
 app.get('/delete/:id', deletesong);
-
+app.get('/update/:id', updatesong);
 
 
 function deletesong(req, res) {
@@ -27,6 +27,17 @@ function deletesong(req, res) {
   let values = [req.params.id];
 
   return client.query(SQL, values)
+    .then(res.redirect('/viewmylist'))
+    .catch(err => handleError(err, res));
+}
+
+function updatesong(req, res) {
+  console.log(req.body);
+  let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.body;
+  let SQL = 'UPDATE songs SET title=$1, preview_mp3=$2, artistName=$3, album_cover_image=$4, album_title=$5, WHERE id=$6;';
+  let values = [title, preview_mp3, artistName, album_cover_image, album_title, req.params.id];
+
+  client.query(SQL, values)
     .then(res.redirect('/viewmylist'))
     .catch(err => handleError(err, res));
 }
@@ -43,21 +54,21 @@ function getsongs(req, res) {
     })
     .catch(err => handleError(err, res));
 }
-function getsong(req, res) {
-  let SQL = 'SELECT * FROM Songs WHERE id=$1;';
-  let values = [request.params.id];
-  client.query(SQL, values)
-    .then(result => res.render('pages/songs/show', { song: result.rows[0], }))
-    .catch(err => handleError(err, res));
-}
+// function getsong(req, res) {
+//   let SQL = 'SELECT * FROM Songs WHERE id=$1;';
+//   let values = [request.params.id];
+//   client.query(SQL, values)
+//     .then(result => res.render('pages/songs/show', { song: result.rows[0], }))
+//     .catch(err => handleError(err, res));
+// }
 
 function addtodatabase(req, res) {
   let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.query;
   let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5);';
-  let values = [title, preview_mp3, artistName, album_title,album_cover_image];
+  let values = [title, preview_mp3, artistName, album_title, album_cover_image];
   client.query(SQL, values)
-    .then( () => {
-      res.render('pages/thanks' ,{});
+    .then(() => {
+      res.render('pages/thanks', {});
     });
 }
 
@@ -75,12 +86,12 @@ app.get('/test', (req, res) => {
       'x-rapidapi-key': 'b7c9ddf4dcmsh3fed6859a77bf85p11dd80jsn396438f74ee5',
     },
   };
-    // superagent(options.url)
-    // .then(musicData =>{
-    //     let jSonData =musicData.body.data
-    //     console.log(jSonData)
-    //     console.log('hi');
-    // })
+  // superagent(options.url)
+  // .then(musicData =>{
+  //     let jSonData =musicData.body.data
+  //     console.log(jSonData)
+  //     console.log('hi');
+  // })
   request(options, function (error, response, body) {
     // console.log(options.qs.q)
     if (error) throw new Error(error);

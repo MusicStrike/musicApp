@@ -22,7 +22,7 @@
         <a href="#"><i class="fab fa-instagram"></i></a>
         <a href="#"><i class="fab fa-twitter"></i></a>
     </header>
-    <section>
+    <section id="shown" style="background-color: red;">
         <ul>
             <% songs.forEach(song => { %>
             <li>
@@ -35,36 +35,30 @@
                 </audio>
                 <h3 class="album"><%= song.album_title%></h3>
                 <!-- <form action="/song/<%= song.id%>" method="GET"> -->
-                <form action="" method="get">
-                    <button> update </button>
-                </form>
+                <button id="updateclick"> update </button>
                 <form action="/delete/<%= song.id %>" method="get">
-                    <button> delete </button>
+                    <button type="submit"> delete </buttontype="submit">
                 </form>
             </li>
             <% }) %>
         </ul>
     </section>
-    <section style="display: none;" id="hiddenform">
+    <section id="hiddenform">
         <ul>
             <% songs.forEach(song => { %>
-            <li>
-                <span style="display: none;"><%= song.id %></span>
-                <h2 class="title"><%= song.title %></h2>
-                <!-- <h2 class="singer"><%= song.artist %></h2> -->
-                <img src='<%= song.album_cover_image %>'>
-                <audio controls>
-                    <source src="<%= song.preview_mp3 %>" type="audio/mpeg">
-                </audio>
-                <h3 class="album"><%= song.album_title%></h3>
-                <!-- <form action="/song/<%= song.id%>" method="GET"> -->
-
-                <button id="updateclick"> update </button>
-
-                <form action="/delete/<%= song.id %>" method="get">
-                    <button> delete </button>
-                </form>
-            </li>
+            <form action="/update/<%= song.id %>" method="get">
+                <input class="hidden" type="text" name="id" value="<%= song.id %>">
+                <input class="hidden" type="text" name="title" value="<%= song.title %>">
+                <input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
+                    value="<%= song.album_cover_image %>">
+                <input class="hidden" type="text" name="artistName" id="artistName" value="<%= song.artistNameb %>">
+                <input class="hidden" type="text" name="preview_mp3" id="preview" value="<%= song.preview_mp3 %>">
+                <input class="hidden" type="text" name="album_title" id="album_title" value="<%= song.album_title %>">
+                <button type="submit"> update </button>
+            </form>
+            <form action="/delete/<%= song.id %>" method="get">
+                <button type="submit"> delete </button>
+            </form>
             <% }) %>
         </ul>
     </section>
@@ -73,7 +67,9 @@
         function myFunction2() {
             alert('update');
             document.getElementById('hiddenform').style.display = 'block';
-        }</script>
+            document.getElementById('shown').style.display = 'none';
+        }
+    </script>
 </body>
 
 </html>
