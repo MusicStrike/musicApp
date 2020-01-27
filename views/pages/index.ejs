@@ -80,7 +80,7 @@
        <h1>top chart here</h1> 
        <ol style="overflow: scroll; height: 450px; width:300 ;">
         <% topSong.forEach((song) =>{ %>
-            <li><%= song.artist_song +' '+ song.title_song %></li>
+            <li><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></li>
             <!-- <li><%= song.title_song %></li> -->
             
             <% }); %>
