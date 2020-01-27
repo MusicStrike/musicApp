@@ -16,8 +16,20 @@ app.use(express.urlencoded({ extended: true, }));
 app.use(express.static('public'));
 
 app.get('/myplaylist', addtodatabase);
-app.get('/songs/show/:id', getsong);
+app.get('/songs/show/:id', getsong);//when we want to view details
 app.get('/viewmylist', getsongs);
+app.get('/delete/:id', deletesong);
+
+
+
+function deletesong(req, res) {
+  let SQL = 'DELETE FROM songs WHERE id=$1;';
+  let values = [req.params.id];
+
+  return client.query(SQL, values)
+    .then(res.redirect('/viewmylist'))
+    .catch(err => handleError(err, res));
+}
 
 function getsongs(req, res) {
   let SQL = 'SELECT * FROM Songs;';
@@ -40,9 +52,9 @@ function getsong(req, res) {
 }
 
 function addtodatabase(req, res) {
-  let { title, preview_mp3, artistName, album_title, album_cover_image, } = req.query;
+  let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.query;
   let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5);';
-  let values = [title, preview_mp3, artistName, album_cover_image, album_title];
+  let values = [title, preview_mp3, artistName, album_title,album_cover_image];
   client.query(SQL, values)
     .then( () => {
       res.render('pages/thanks' ,{});
