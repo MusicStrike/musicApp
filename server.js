@@ -72,7 +72,7 @@ app.get('/test', (req, res) => {
 
     headers: {
       'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
-      'x-rapidapi-key': Music_API_KEY,
+      'x-rapidapi-key': 'b7c9ddf4dcmsh3fed6859a77bf85p11dd80jsn396438f74ee5',
     },
   };
     // superagent(options.url)
