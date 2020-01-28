@@ -12,14 +12,14 @@ let app = express();
 var bodyparser = require('body-parser');
 app.use(bodyparser.json());
 var routes = require('./routes/routes.js');
-app.use(routes);  
+app.use(routes);
 var path = require('path');
-  // var app = express();
+// var app = express();
 app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true, }));
 app.use(express.static('public'));
-  
-  
+
+
 app.set('views/pages', path.join(__dirname, 'views/pages'));
 // app.engine('html', require('ejs').renderFile);
 // app.set('view engine', 'html');
@@ -29,9 +29,6 @@ app.get('/myplaylist', addtodatabase);
 app.get('/viewmylist', getsongs);
 app.get('/delete/:id', deletesong);
 app.get('/update/:id', updatesong);
-
-
-
 
 
 function deletesong(req, res) {
@@ -58,9 +55,9 @@ function getsongs(req, res) {
   let SQL = 'SELECT * FROM Songs;';
   client.query(SQL)
     .then(results => {
-   
+
       res.render('pages/songs/show', { songs: results.rows, });
-     
+
     })
     .catch(err => handleError(err, res));
 }
@@ -80,55 +77,51 @@ app.get('/', (req, res) => {
   var options = {
     method: 'GET',
     url: 'https://30-000-radio-stations-and-music-charts.p.rapidapi.com/rapidapi',
-    qs: {chartsweek: '1'},
+    qs: { chartsweek: '1' },
     headers: {
       'x-rapidapi-host': '30-000-radio-stations-and-music-charts.p.rapidapi.com',
       'x-rapidapi-key': 'eecd5fae1amsh533358a9cbb816dp1e354cjsn4ffd1b1a115c'
     }
   };
-  
+
   request(options, function (error, response, body) {
-      if (error) throw new Error(error);
-  
-    
-   
+    if (error) throw new Error(error);
+
+
+
     var obj = JSON.parse(body);
     // console.log("this isnt",obj)
 
     let topSong = obj.results.map(song => new TopChart(song))
-    res.render('pages/index' , {topSong:topSong});
+    res.render('pages/index', { topSong: topSong });
 
-    })
-    function TopChart(song){
-        // console.log("this is in constructor",song.artist_song)
-      this.artist_song=song.artist_song
-      this.title_song=song.title_song
-    
-  } 
-  
-  });
-  //====================================
+  })
+  function TopChart(song) {
+    // console.log("this is in constructor",song.artist_song)
+    this.artist_song = song.artist_song
+    this.title_song = song.title_song
 
-  // var express = require('express');
+  }
+
+});
 
 
 
 
-
-
-app.get('/', (req,res) => {
-    // console.log(req);
-     res.render('pages/index');
- })
+app.get('/', (req, res) => {
+  // console.log(req);
+  res.render('pages/index');
+})
 app.get('*', (req, res) => {
-   // console.log('this is for checking ', req);
-    res.status(404).render('./pages/error', { erorr: '404 NOT FOUND' })
+  // console.log('this is for checking ', req);
+  res.status(404).render('./pages/error', { erorr: '404 NOT FOUND' })
 });
 const client = new pg.Client(process.env.DATABASE_URL);
 client.connect(console.log('im DB'))
-.then( () => {
-app.listen(PORT, () => {
-    console.log(`Host : ${PORT}` )
-})
-})
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Host : ${PORT}`)
+    })
+  })
+
 
