@@ -14,6 +14,8 @@
    
   </head>
   <body>
+ 
+    <a href="/">home</a>
     <div class="container">
       <div >
         <h1 >Lyrics app</h1>
@@ -21,7 +23,7 @@
         <form action="javascript:Search()" >
           <div class=>
             <label for="query" >Song name</label>
-            <input placeholder="Search Music " type="text" id="query" >
+            <input placeholder="Search Music " type="text" id="query" required>
           </div>
           <button type="submit" >Search</button>
         </form>
@@ -45,7 +47,7 @@
         // alert('Data Received');
         console.log(data);
         if(data.length<3)
-        $("#lyrics").text('Lyrics Not Found ;(');
+        $("#lyrics").text('Lyrics Not Found ');
         else
         $("#lyrics").text(data);
         $('#lyrics').css('display','block')
