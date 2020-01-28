@@ -47,7 +47,7 @@
                 success: function(res) {
                     let container = $("#searchResult");
                     var searchResult =`<ul>`;
-                    console.log(res);
+                    //console.log(res);
                     for(let i = 0 ; i< res.data.length ; i++ ){
                         searchResult += `<li><h2 class='title'>${res.data[i].title}</h2></li>
                             <img src='${res.data[i].album.cover_medium}'>
@@ -73,7 +73,8 @@
                 }
             });
             });
-        }) 
+        })
+        
 </script>
     <br>
     <div >
