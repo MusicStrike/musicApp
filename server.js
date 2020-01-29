@@ -6,7 +6,7 @@ const cors = require('cors');
 const request = require('request');
 let Music_API_KEY = process.env.Music_API_KEY;
 const superagent = require('superagent');
-const PORT = process.env.PORT || 4444;
+const PORT = process.env.PORT || 5555;
 const pg = require('pg');
 const methodOverride = require('method-override');
 let app = express();
@@ -104,15 +104,16 @@ function specificSong(req, res) {
 function addtodatabase(req, res) {
   let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.query;
   /**************/
-  let selectsql = 'select title from songs where title=$1;'
-  let valuess = [req.params.title];
+  let selectsql = 'select title from Songs where title=$1;'
+  let valuess = [req.query.title];
+  console.log(valuess);
   client.query(selectsql, valuess)
     .then((results) => {
-      console.log(results);
-      if (results.rowCount !== 0) {
+      console.log("results : ",results);
+      if (results.rowCount === 0) {
         let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5)';
         let values = [title, preview_mp3, artistName, album_title, album_cover_image];
-        client.query(SQL, values)
+       return client.query(SQL, values)
           .then(() => {
             res.render('pages/thanks', {});
           });
