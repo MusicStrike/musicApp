@@ -1,6 +1,8 @@
 /* eslint-disable camelcase */
 'use strict';
 require('dotenv').config();
+const flash = require('express-flash');
+
 const express = require('express');
 const cors = require('cors');
 const request = require('request');
@@ -24,7 +26,19 @@ app.set('view engine', 'ejs');
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride('_method'));
 app.use(express.static('public'));
+app.use(flash());
+///=========================
+var session = require('express-session');
 
+//...
+
+
+app.use(session({ cookie: { maxAge: 60000 }, 
+                  secret: 'woot',
+                  resave: false, 
+                  saveUninitialized: false}));
+                  
+//====================
 
 app.set('views/pages', path.join(__dirname, 'views/pages'));
 
@@ -88,10 +102,13 @@ function addtodatabase(req, res) {
         let values = [title, preview_mp3, artistName, album_title, album_cover_image];
        return client.query(SQL, values)
           .then(() => {
-            res.render('pages/thanks', {});
+            req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>');
+      res.redirect('/');
           });
       }else {
+        req.flash('success', 'Song NOT added to <a href="/viewmylist">playlist</a>');
         res.redirect('/')
+
       }
     });
 
@@ -132,6 +149,42 @@ app.get('/', (req, res) => {
   }
 
 });
+//======================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.get('/', (req, res) => {
 
