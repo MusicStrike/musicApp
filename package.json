@@ -23,12 +23,9 @@
     "dotenv": "^8.2.0",
     "ejs": "^3.0.1",
     "express": "^4.17.1",
-<<<<<<< HEAD
     "express-flash": "0.0.2",
     "express-session": "^1.17.0",
-=======
     "method-override": "^3.0.0",
->>>>>>> 50ac53dc4fbfa6df36a39aadfc620d23ee56cfc4
     "path": "^0.12.7",
     "pg": "^7.17.1",
     "request": "^2.88.0",

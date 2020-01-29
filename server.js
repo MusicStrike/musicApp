@@ -68,12 +68,6 @@ function updatesong(req, res) {
   let values = [title, preview_mp3, artist, album_cover_image, album_title, req.params.id_song];
 
   client.query(SQL, values)
-<<<<<<< HEAD
-    .then(()=>{
-      req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>')
-      res.redirect('/viewmylist')})
-    .catch(err => handleError(err, res));
-=======
     .then(() => {
       res.redirect(`/edit/${req.params.id_song}`)
     })
@@ -95,7 +89,6 @@ function updatesong(req, res) {
 
   // .then( res.redirect('/viewmylist'))
   // .catch(err => handleError(err, res));
->>>>>>> 50ac53dc4fbfa6df36a39aadfc620d23ee56cfc4
 }
 app.get('/viewmylist', getsongs);
 function getsongs(req, res) {
@@ -124,14 +117,6 @@ function specificSong(req, res) {
 
 function addtodatabase(req, res) {
   let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.query;
-<<<<<<< HEAD
-  let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5);';
-  let values = [title, preview_mp3, artistName, album_title, album_cover_image];
-  client.query(SQL, values)
-    .then(() => {
-      req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>');
-      res.redirect('/');
-=======
   /**************/
   let selectsql = 'select title from Songs where title=$1;'
   let valuess = [req.query.title];
@@ -152,7 +137,6 @@ function addtodatabase(req, res) {
         res.redirect('/')
 
       }
->>>>>>> 50ac53dc4fbfa6df36a39aadfc620d23ee56cfc4
     });
 
   /**************/
