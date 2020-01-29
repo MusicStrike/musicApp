@@ -1,0 +1,56 @@
+<h1>
+Music    
+</h1>
+
+
+
+<body class="index">
+    <ul>
+        <li>
+<div id='song'>
+<h2><%=amazingSong.title%></h2>
+<br>
+<img src="<%=amazingSong.album_cover_image %>">
+<br>
+<h2><%=amazingSong.artistname%><h2>
+<audio controls>
+    <source src="<%= amazingSong.preview_mp3 %>" type="audio/mpeg">
+</audio>
+<h3><%=amazingSong.album_title%></h3>
+
+<button id="up">Update</button>
+</div>
+<form action="/delete/<%= amazingSong.id %>?_method=DELETE" method="POST">
+    <button type="submit"> delete song </button>
+  </form>
+  <div>
+    <form action="/update/<%= amazingSong.id %>?_method=PUT" method="POST" id="hiddenForm" style="display: none;">
+
+      <input name="title" type="text" value="<%= amazingSong.title %>">
+      <br>
+      <input name="album_cover_image" type="text" value="<%= amazingSong.album_cover_image %>">
+      <br>
+      <input name="artistname" type="text" id="" value="<%= amazingSong.artistname %>">
+      <br>
+      <input name="preview_mp3" type="text" value="<%= amazingSong.preview_mp3 %>">
+      <br>
+      <input name="album_title" type="text" value="<%= amazingSong.album_title %>">
+      <br>
+      <button type="submit"> Update book </button>
+    </form>
+  </div>
+        </li>
+    </ul>
+
+
+<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+ <script>
+        $('#up').click(showForm) ;
+        function showForm(){
+          $('#hiddenForm').show();
+          $('#song').hide();
+        }
+      </script>
+
+</body>
+

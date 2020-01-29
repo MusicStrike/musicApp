@@ -25,7 +25,11 @@
         <!-- <form action="/test" method="GET" id="SearchForm" ></form> -->
     <form id="SearchForm" >
         <br>
+<<<<<<< HEAD
         <input type="text" name="input" placeholder="Name here" id="searchInput" autocomplete="off" required>
+=======
+        <input type="text" name="input" placeholder="Name here" id="searchInput"  autocomplete="off" required>
+>>>>>>> 50ac53dc4fbfa6df36a39aadfc620d23ee56cfc4
         <p>Please select your type</p>
         <!-- <input  type="radio" name="select" required>SINGER <br><br>  -->
         <button id="myDIV"type="submit">submit</button>
@@ -49,7 +53,7 @@
                 success: function(res) {
                     let container = $("#searchResult");
                     var searchResult =`<ul>`;
-                    console.log(res);
+                    //console.log(res);
                     for(let i = 0 ; i< res.data.length ; i++ ){
                         searchResult += `<li><h2 class='title'>${res.data[i].title}</h2></li>
                             <img src='${res.data[i].album.cover_medium}'>
@@ -75,7 +79,8 @@
                 }
             });
             });
-        }) 
+        })
+        
 </script>
     <br>
     <div >

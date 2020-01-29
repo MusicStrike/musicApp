@@ -35,40 +35,67 @@
                 </audio>
                 <h3 class="album"><%= song.album_title%></h3>
                 <!-- <form action="/song/<%= song.id%>" method="GET"> -->
-                <button id="updateclick"> update </button>
-                <form action="/delete/<%= song.id %>" method="get">
-                    <button type="submit"> delete </buttontype="submit">
+                <a href="/edit/<%=song.id %>"> view </a>
+
+
+                <form action="/delete/<%= song.id %>?_method=DELETE" method="POST">
+                    <button type="submit"> delete please </button>
                 </form>
             </li>
             <% }) %>
         </ul>
     </section>
+
+
+
+ 
+
     <section id="hiddenform">
         <ul>
             <% songs.forEach(song => { %>
-            <form action="/update/<%= song.id %>" method="get">
-                <input class="hidden" type="text" name="id" value="<%= song.id %>">
-                <input class="hidden" type="text" name="title" value="<%= song.title %>">
-                <input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
+            <form  action="/update/<%= song.id %>?_method=PUT" method="POST">
+                <input  type="text" name="id" value="<%= song.id %>">
+                <br>
+                <input  type="text" name="title" value="<%= song.title %>">
+                <br>
+                <input type="text" name="album_cover_image" id="album_cover_image"
                     value="<%= song.album_cover_image %>">
-                <input class="hidden" type="text" name="artistName" id="artistName" value="<%= song.artistNameb %>">
-                <input class="hidden" type="text" name="preview_mp3" id="preview" value="<%= song.preview_mp3 %>">
-                <input class="hidden" type="text" name="album_title" id="album_title" value="<%= song.album_title %>">
-                <button type="submit"> update </button>
+                    <br>
+                <input type="text" name="artistName" id="artistName" value="<%= song.artistName %>">
+                <br>
+                <input type="text" name="preview_mp3" id="preview" value="<%= song.preview_mp3 %>">
+                <br>
+                <input type="text" name="album_title" id="album_title" value="<%= song.album_title %>">
+                <br>
+                <button type="submit"> update bro </button>
             </form>
-            <form action="/delete/<%= song.id %>" method="get">
-                <button type="submit"> delete </button>
+            <form action="/delete/<%= song.id%>?_method=DELETE" method="POST">
+                <button type="submit"> delete man </button>
             </form>
             <% }) %>
         </ul>
     </section>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
     <script>
-        document.getElementById('updateclick').onclick = function () { myFunction2(); };
-        function myFunction2() {
-            alert('update');
-            document.getElementById('hiddenform').style.display = 'block';
-            document.getElementById('shown').style.display = 'none';
-        }
+        $(document).ready(function(){
+            alert('hello')
+        })
+
+ 
+        // $('#updateclick').click(showForm) ;
+        // function showForm(){
+        //   $('#hiddenform').show();
+        //   $('#shown').hide();
+        // }
+
+
+        // document.getElementById('updateclick').onclick = function () { myFunction2(); };
+        // function myFunction2() {
+        //     alert('update');
+        //     document.getElementById('hiddenform').style.display = 'block';
+            // document.getElementById('shown').style.display = 'none';
+        //}
     </script>
 </body>
 

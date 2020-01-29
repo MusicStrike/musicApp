@@ -8,8 +8,9 @@ const cors = require('cors');
 const request = require('request');
 let Music_API_KEY = process.env.Music_API_KEY;
 const superagent = require('superagent');
-const PORT = process.env.PORT || 5500;
+const PORT = process.env.PORT || 5555;
 const pg = require('pg');
+const methodOverride = require('method-override');
 let app = express();
 var bodyparser = require('body-parser');
 app.use(bodyparser.json());
@@ -18,7 +19,8 @@ app.use(routes);
 var path = require('path');
 // var app = express();
 app.set('view engine', 'ejs');
-app.use(express.urlencoded({ extended: true, }));
+app.use(express.urlencoded({ extended: true }));
+app.use(methodOverride('_method'));
 app.use(express.static('public'));
 app.use(flash());
 ///=========================
@@ -40,9 +42,11 @@ app.set('views/pages', path.join(__dirname, 'views/pages'));
 
 app.get('/myplaylist', addtodatabase);
 // app.get('/songs/show/:id', getsong);//when we want to view details
-app.get('/viewmylist', getsongs);
-app.get('/delete/:id', deletesong);
-app.get('/update/:id', updatesong);
+app.delete('/delete/:id', deletesong);
+//app.get('/update/:id', updatesong);
+
+
+
 
 
 function deletesong(req, res) {
@@ -51,44 +55,120 @@ function deletesong(req, res) {
 
   return client.query(SQL, values)
     .then(res.redirect('/viewmylist'))
-    .catch(err => handleError(err, res));
+  // .catch(err => handleError(err, res));
 }
+// function updateValues( req , res )
 
+
+app.put('/update/:id_song', updatesong);
 function updatesong(req, res) {
-  console.log(req.body);
-  let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.body;
-  let SQL = 'UPDATE songs SET title=$1, preview_mp3=$2, artistName=$3, album_cover_image=$4, album_title=$5, WHERE id=$6;';
-  let values = [title, preview_mp3, artistName, album_cover_image, album_title, req.params.id];
+  console.log("ZZZzzzz", req.body);
+  let { title, preview_mp3, artist, album_cover_image, album_title } = req.body;
+  let SQL = 'UPDATE songs SET title=$1, preview_mp3=$2, artist=$3, album_cover_image=$4, album_title=$5 WHERE id=$6 ;';
+  let values = [title, preview_mp3, artist, album_cover_image, album_title, req.params.id_song];
 
   client.query(SQL, values)
+<<<<<<< HEAD
     .then(()=>{
       req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>')
       res.redirect('/viewmylist')})
     .catch(err => handleError(err, res));
-}
+=======
+    .then(() => {
+      res.redirect(`/edit/${req.params.id_song}`)
+    })
+  /*app.get('/details/:music_id' , oneSong);
+  function oneSong ( req , res ) {
+  
+    console.log('detail function');
+    let SQL = 'SELECT * FROM Songs WHERE id=$1;' ;
+    let values = [req.params.music_id] ;
+    return client.query(SQL , values)
+      .then((tableIdData) => {
+      // console.log(tableIdData.rows[0]);
+        return res.render('songs/showing' , { theChoosenOne : tableIdData.rows[0]})
+      })
+  
+  }*/
 
+  // .catch(err => handleError(err, res))
+
+  // .then( res.redirect('/viewmylist'))
+  // .catch(err => handleError(err, res));
+>>>>>>> 50ac53dc4fbfa6df36a39aadfc620d23ee56cfc4
+}
+app.get('/viewmylist', getsongs);
 function getsongs(req, res) {
   let SQL = 'SELECT * FROM Songs;';
-  client.query(SQL)
+  return client.query(SQL)
     .then(results => {
-
-      res.render('pages/songs/show', { songs: results.rows, });
-
+      //   if (results.rows.rowCount === 0) {
+      //     res.render('pages/error');
+      //   } else {
+      res.render('pages/songs/show', { songs: results.rows });
+      //   }
     })
-    .catch(err => handleError(err, res));
+  // .catch(err => handleError(err, res));
 }
+app.get('/edit/:music_id', specificSong)
+function specificSong(req, res) {
+  let SQL = 'SELECT * FROM Songs WHERE id=$1;';
+  let values = [req.params.music_id];
+  client.query(SQL, values)
 
+    .then(musicResult => {
+      res.render('pages/finalcopy', { amazingSong: musicResult.rows[0] })
+    })
+
+}
 
 function addtodatabase(req, res) {
   let { title, preview_mp3, artistName, album_cover_image, album_title, } = req.query;
+<<<<<<< HEAD
   let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5);';
   let values = [title, preview_mp3, artistName, album_title, album_cover_image];
   client.query(SQL, values)
     .then(() => {
       req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>');
       res.redirect('/');
+=======
+  /**************/
+  let selectsql = 'select title from Songs where title=$1;'
+  let valuess = [req.query.title];
+  console.log(valuess);
+  client.query(selectsql, valuess)
+    .then((results) => {
+      console.log("results : ",results);
+      if (results.rowCount === 0) {
+        let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5)';
+        let values = [title, preview_mp3, artistName, album_title, album_cover_image];
+       return client.query(SQL, values)
+          .then(() => {
+            req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>');
+      res.redirect('/');
+          });
+      }else {
+        req.flash('success', 'Song NOT added to <a href="/viewmylist">playlist</a>');
+        res.redirect('/')
+
+      }
+>>>>>>> 50ac53dc4fbfa6df36a39aadfc620d23ee56cfc4
     });
+
+  /**************/
+  // let SQL = 'INSERT INTO Songs(title, preview_mp3, artist, album_title, album_cover_image) VALUES($1, $2, $3, $4, $5)';
+  // let values = [title, preview_mp3, artistName, album_title, album_cover_image];
+  // client.query(SQL, values)
+  //   .then(() => {
+  //     res.render('pages/thanks' , {});
+  //   });
 }
+
+// function checking(req,res){
+// let SQL = 'SELECT * from songs;'
+// if()
+
+// }
 
 app.get('/', (req, res) => {
   var options = {
@@ -105,6 +185,9 @@ app.get('/', (req, res) => {
     if (error) throw new Error(error);
 
 
+
+    var obj = JSON.parse(body);
+    //console.log("this isnt",obj)
 
     var obj = JSON.parse(body);
     // console.log("this isnt",obj)
@@ -176,5 +259,4 @@ client.connect(console.log('im DB'))
       console.log(`Host : ${PORT}`)
     })
   })
-
 
