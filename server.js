@@ -61,7 +61,9 @@ function updatesong(req, res) {
   let values = [title, preview_mp3, artistName, album_cover_image, album_title, req.params.id];
 
   client.query(SQL, values)
-    .then(res.redirect('/viewmylist'))
+    .then(()=>{
+      req.flash('success', 'Song added to <a href="/viewmylist">playlist</a>')
+      res.redirect('/viewmylist')})
     .catch(err => handleError(err, res));
 }
 
