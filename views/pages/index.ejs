@@ -15,6 +15,7 @@
 <body>
     <header>
         <h1>Music Strike</h1>
+        <a href="/lyrics">lyrics</a>
     </header>
     <fieldset>
         <legend>
@@ -23,7 +24,7 @@
         <!-- <form action="/test" method="GET" id="SearchForm" ></form> -->
     <form id="SearchForm" >
         <br>
-        <input type="text" name="input" placeholder="Name here" id="searchInput" required>
+        <input type="text" name="input" placeholder="Name here" id="searchInput"  autocomplete="off" required>
         <p>Please select your type</p>
         <!-- <input  type="radio" name="select" required>SINGER <br><br>  -->
         <button id="myDIV"type="submit">submit</button>
@@ -81,7 +82,7 @@
        <h1>top chart here</h1> 
        <ol style="overflow: scroll; height: 450px; width:300 ;">
         <% topSong.forEach((song) =>{ %>
-            <li><%= song.artist_song +' '+ song.title_song %></li>
+            <li><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></li>
             <!-- <li><%= song.title_song %></li> -->
             
             <% }); %>
