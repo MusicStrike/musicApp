@@ -140,7 +140,7 @@ app.get('/', (req, res) => {
 
 
 
-    var obj = JSON.parse(body);
+    // var obj = JSON.parse(body);
     //console.log("this isnt",obj)
 
     var obj = JSON.parse(body);

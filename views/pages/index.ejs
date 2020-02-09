@@ -12,7 +12,7 @@
     }
     </style> -->
 </head>
-<body>
+<body background="https://i.pinimg.com/originals/57/f5/fa/57f5fa649b7683b5ee4999242e873e63.jpg">
     <header>
         <h1>Music Strike</h1>
         <a href="/lyrics">lyrics</a>
@@ -48,15 +48,23 @@
                 },
                 success: function(res) {
                     let container = $("#searchResult");
-                    var searchResult =`<ul>`;
+                    var searchResult =`<div id ="carousel" style="height:1000px">
+  
+
+  
+`
+let slides=["hideLeft","prevLeftSecond","prev","selected","next","nextRightSecond","hideRight"];
+
                     //console.log(res);
-                    for(let i = 0 ; i< res.data.length ; i++ ){
-                        searchResult += `<li><h2 class='title'>${res.data[i].title}</h2></li>
-                            <img src='${res.data[i].album.cover_medium}'>
+                    for(let i = 0 ; i<  slides.length ; i++ ){
+                        // for(let x = 0 ; x< slides.length ; x++ ){
+                        searchResult += `<div class="${slides[i]}" ><h2 class='title'>${res.data[i].title}</h2>
+                            <img  style="width:100%" src='${res.data[i].album.cover_medium}'>
                             <audio controls>
                               <source src='${res.data[i].preview}' type="audio/mpeg">
                             </audio>
-                            <h3 class="album">${res.data[i].album.title}</h3>
+                            
+                            <h3 class="text" class="album">${res.data[i].album.title}</h3>
                             <form action="/myplaylist" method="GET">
                             <input class="hidden" type="text" name="title" value="${res.data[i].title}">
                             <input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
@@ -65,12 +73,14 @@
                             <input class="hidden" type="text" name="preview_mp3" id="preview" value="${res.data[i].preview}">
                             <input class="hidden" type="text" name="album_title" id="album_title"
                                 value="${res.data[i].album.title}">
-                            <button type="submit" id="addtodatabase">Add To Playlist</button>
+                            <button type="submit" id="addtodatabase">Add To Playlist</button></div>
                         </form>
+
                             `;
+                        // }
                         
                     }
-                    searchResult += `</ul>`
+                    searchResult += ` </div>`
                     container.html(searchResult)
                 }
             });
@@ -78,6 +88,10 @@
         })
         
 </script>
+  <div class="buttons">
+      <button id="prev">Prev</button>
+      <button id="next">Next</button>
+    </div>
     <br>
     <div >
        <h1>top chart here</h1> 
@@ -89,6 +103,63 @@
             <% }); %>
         </ol>
     </div>
+<script>
+    function moveToSelected(element) {
 
+if (element == "next") {
+  var selected = $(".selected").next();
+} else if (element == "prev") {
+  var selected = $(".selected").prev();
+} else {
+  var selected = element;
+}
+
+var next = $(selected).next();
+var prev = $(selected).prev();
+var prevSecond = $(prev).prev();
+var nextSecond = $(next).next();
+
+$(selected).removeClass().addClass("selected");
+
+$(prev).removeClass().addClass("prev");
+$(next).removeClass().addClass("next");
+
+$(nextSecond).removeClass().addClass("nextRightSecond");
+$(prevSecond).removeClass().addClass("prevLeftSecond");
+
+$(nextSecond).nextAll().removeClass().addClass('hideRight');
+$(prevSecond).prevAll().removeClass().addClass('hideLeft');
+
+}
+
+// Eventos teclado
+$(document).keydown(function(e) {
+  switch(e.which) {
+      case 37: // left
+      moveToSelected('prev');
+      break;
+
+      case 39: // right
+      moveToSelected('next');
+      break;
+
+      default: return;
+  }
+  e.preventDefault();
+});
+
+$('#carousel div').click(function() {
+moveToSelected($(this));
+});
+
+$('#prev').click(function() {
+moveToSelected('prev');
+});
+
+$('#next').click(function() {
+moveToSelected('next');
+});
+
+</script>
 </body>
 </html>
