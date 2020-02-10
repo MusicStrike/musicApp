@@ -31,9 +31,23 @@
         <button id="myDIV"type="submit">submit</button>
         </fieldset>
     </form>
-    <div id="searchResult"></div>
+    <!-- <div id="searchResult"></div> -->
 <!-- ch1-->
-<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+
+    <br>
+    <div >
+       <h1>top chart here</h1> 
+       <ol style="overflow: scroll; height: 450px; width:300 ;">
+        <% topSong.forEach((song) =>{ %>
+            <li><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></li>
+            <!-- <li><%= song.title_song %></li> -->
+            
+            <% }); %>
+        </ol>
+    </div>
+    <br>
+    <div id="searchResult"></div>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 <script>
        $(document).ready(function() { 
             $(document).on('submit','#SearchForm',function(e){
@@ -91,17 +105,6 @@ let slides=["hideLeft","prevLeftSecond","prev","selected","next","nextRightSecon
   <div class="buttons">
       <button id="prev">Prev</button>
       <button id="next">Next</button>
-    </div>
-    <br>
-    <div >
-       <h1>top chart here</h1> 
-       <ol style="overflow: scroll; height: 450px; width:300 ;">
-        <% topSong.forEach((song) =>{ %>
-            <li><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></li>
-            <!-- <li><%= song.title_song %></li> -->
-            
-            <% }); %>
-        </ol>
     </div>
 <script>
     function moveToSelected(element) {
