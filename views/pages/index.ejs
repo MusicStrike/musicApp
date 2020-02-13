@@ -1,168 +1,427 @@
-<!DOCTYPE html>
-<html >
+<!DOCTYPE HTML>
+<!--
+	Broadcast by TEMPLATED
+	templated.co @templatedco
+	Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/styles/style.css" type="text/css">
-    <title>Document</title>
-    <!-- <style>
-    body{
-        background-color: aqua;
-    }
-    </style> -->
+	<title>Music Strike</title>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
+	<link rel="stylesheet" type="text/css" href="/css/main.css" />
+	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css" />
+	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/a177902e94.js" crossorigin="anonymous"></script>
+	<!-- <link rel="stylesheet" href="" type="text/css"> -->
+	<!-- <link rel="stylesheet" href="assets/css/main.css" /> -->
 </head>
-<body background="https://i.pinimg.com/originals/57/f5/fa/57f5fa649b7683b5ee4999242e873e63.jpg">
-    <header>
-        <h1>Music Strike</h1>
-        <a href="/lyrics">lyrics</a>
-    </header>
-    <div class="alert alert-success" role="alert"><%- messages.success %></div>
-    <fieldset>
-        <legend>
-            SEARCH SONG OR SINGER
-        </legend>
-        <!-- <form action="/test" method="GET" id="SearchForm" ></form> -->
-    <form id="SearchForm" >
-        <br>
-        <input type="text" name="input" placeholder="Name here" id="searchInput" autocomplete="off" required>
-        <p>Please select your type</p>
-        <!-- <input  type="radio" name="select" required>SINGER <br><br>  -->
-        <button id="myDIV"type="submit">submit</button>
-        </fieldset>
-    </form>
-    <!-- <div id="searchResult"></div> -->
-<!-- ch1-->
 
-    <br>
-    <div >
-       <h1>top chart here</h1> 
-       <ol style="overflow: scroll; height: 450px; width:300 ;">
-        <% topSong.forEach((song) =>{ %>
-            <li><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></li>
-            <!-- <li><%= song.title_song %></li> -->
-            
-            <% }); %>
-        </ol>
-    </div>
-    <br>
-    <div id="searchResult"></div>
-    <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
-<script>
-       $(document).ready(function() { 
-            $(document).on('submit','#SearchForm',function(e){
-                var searchInput = $('#searchInput').val();
-                e.preventDefault();
-                $.ajax({
-                url: `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchInput}`,
-                type: 'GET',
-                headers: {
-                    'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
-                    'x-rapidapi-key': 'b7c9ddf4dcmsh3fed6859a77bf85p11dd80jsn396438f74ee5'
-                },
-                success: function(res) {
-                    let container = $("#searchResult");
-                    var searchResult =`<div id ="carousel" style="height:1000px">
-  
+<body>
 
-  
-`
-let slides=["hideLeft","prevLeftSecond","prev","selected","next","nextRightSecond","hideRight"];
+	<!-- Header -->
+	<header id="header">
+		<!-- <h1><a href="#"><img src="https://i.imgur.com/nvEz4uW.png" height="100px" width="100px"></a></h1>  -->
+		<!-- form -->
+		<div class="search-container">
+			<form action="/action_page.php" id="SearchForm">
 
-                    //console.log(res);
-                    for(let i = 0 ; i<  slides.length ; i++ ){
-                        // for(let x = 0 ; x< slides.length ; x++ ){
-                        searchResult += `<div class="${slides[i]}" ><h2 class='title'>${res.data[i].title}</h2>
-                            <img  style="width:100%" src='${res.data[i].album.cover_medium}'>
-                            <audio controls>
-                              <source src='${res.data[i].preview}' type="audio/mpeg">
-                            </audio>
-                            
-                            <h3 class="text" class="album">${res.data[i].album.title}</h3>
-                            <form action="/myplaylist" method="GET">
-                            <input class="hidden" type="text" name="title" value="${res.data[i].title}">
-                            <input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
-                                value="${res.data[i].album.cover_medium}">
-                            <input class="hidden" type="text" name="artistName" id="artistName" value="${res.data[i].artist.name}">
-                            <input class="hidden" type="text" name="preview_mp3" id="preview" value="${res.data[i].preview}">
-                            <input class="hidden" type="text" name="album_title" id="album_title"
-                                value="${res.data[i].album.title}">
-                            <button type="submit" id="addtodatabase">Add To Playlist</button></div>
-                        </form>
+				<input type="text" name="input" placeholder="Search..." id="searchInput" autocomplete="off" required>
+				<!-- <p>Please select your type</p> -->
+				<!-- <input  type="radio" name="select" required>SINGER <br><br>  -->
+				<button id="serachClickIcon" type="submit"><i class="fa fa-search"></i></button>
+				<!-- </fieldset> -->
+			</form>
+		</div>
 
-                            `;
-                        // }
-                        
-                    }
-                    searchResult += ` </div>`
-                    container.html(searchResult)
-                }
-            });
-            });
-        })
-        
-</script>
-  <div class="buttons">
-      <button id="prev">Prev</button>
-      <button id="next">Next</button>
-    </div>
-<script>
-    function moveToSelected(element) {
+		<i class="fa fa-close"></i>
+		<a href="#menu">Menu</a>
+	</header>
 
-if (element == "next") {
-  var selected = $(".selected").next();
-} else if (element == "prev") {
-  var selected = $(".selected").prev();
-} else {
-  var selected = element;
-}
+	<!-- Nav -->
 
-var next = $(selected).next();
-var prev = $(selected).prev();
-var prevSecond = $(prev).prev();
-var nextSecond = $(next).next();
+	<nav id="menu">
+		<ul class="links">
+			<li><a href="/">Home</a></li>
+			<li><a href="/lyrics">Lyrics</a></li>
+			<li><a href="/viewmylist">Playlist</a></li>
+		</ul>
+	</nav>
 
-$(selected).removeClass().addClass("selected");
+	<!-- Banner -->
+	<!--
+				To use a video as your background, set data-video to the name of your video without
+				its extension (eg. images/banner). Your video must be available in both .mp4 and .webm
+				formats to work correctly.
+				
+			-->
 
-$(prev).removeClass().addClass("prev");
-$(next).removeClass().addClass("next");
+	<section id="banner" data-video="images/banner">
+		<div class="inner">
+			<header>
 
-$(nextSecond).removeClass().addClass("nextRightSecond");
-$(prevSecond).removeClass().addClass("prevLeftSecond");
+				<h1>Music Strike</h1>
+				<br>
 
-$(nextSecond).nextAll().removeClass().addClass('hideRight');
-$(prevSecond).prevAll().removeClass().addClass('hideLeft');
+				<p>This website is made for music lovers <br />
+					from all around the world</p>
+			</header>
+			<a href="#main" class="button big alt scrolly">Get started</a>
+			<br>
+			<br>
 
-}
+			<div class="alert alert-success" role="alert"><strong><%- messages.success %></strong></div>
+		</div>
 
-// Eventos teclado
-$(document).keydown(function(e) {
-  switch(e.which) {
-      case 37: // left
-      moveToSelected('prev');
-      break;
+	</section>
 
-      case 39: // right
-      moveToSelected('next');
-      break;
+	<!-- Main -->
+	<div id="main">
 
-      default: return;
-  }
-  e.preventDefault();
-});
 
-$('#carousel div').click(function() {
-moveToSelected($(this));
-});
+		<!-- One -->
+		<section id="featuredMusic" class="wrapper style1">
+			<div class="inner">
+				<header class="align-center">
+					<h2>Featured Music</h2>
+					<p>Dicover new Bands and diffrent types of music</p>
+				</header>
+				<!-- 2 Column Video Section -->
+				<div class="flex flex-2">
+					<div class="video col">
+						<div class="image fit">
+							<iframe width="100%" height="315" src="https://www.youtube.com/embed/LZa5KKfqHtA"
+								frameborder="0"
+								allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen></iframe>
+						</div>
+						<p class="caption">
+							Daughter - New Ways
+						</p>
 
-$('#prev').click(function() {
-moveToSelected('prev');
-});
 
-$('#next').click(function() {
-moveToSelected('next');
-});
+					</div>
+					<div class="video col">
 
-</script>
+						<div class="image fit">
+
+							<iframe width="100%" height="315" src="https://www.youtube.com/embed/lY0mpRySPWk"
+								frameborder="0"
+								allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+								allowfullscreen></iframe>
+						</div>
+						<p class="caption">
+							STRFKR - Golden light
+						</p>
+					</div>
+
+					<!-- <a href="generic.html" class="link"><span>Click Me</span></a> -->
+				</div>
+			</div>
+	</div>
+	</section>
+
+	<!-- Two -->
+	<section id="TopChart" class="wrapper style2">
+		<div class="inner">
+			<header>
+				<h2>Top Chart</h2>
+				<p>Top 12 songs from all around the globe</p>
+			</header>
+			<!-- Tabbed Video Section -->
+			<div class="flex flex-tabs">
+				<!-- <ul class="tab-list">
+									<li><a href="#" data-tab="tab-1" class="active">1-6</a></li>
+									<li><a href="#" data-tab="tab-2">7-13</a></li>
+									<li><a href="#" data-tab="tab-3">14-20</a></li>
+								</ul> -->
+
+				<div class="tabs">
+					<!-- <div>
+										<ol style="overflow: scroll; height: 450px; width:300 ;">
+											
+											</ol>
+										</div> -->
+					<div class="tab tab-1 flex flex-3 active"  style="width: 75em;">
+						<!-- Video Thumbnail -->
+						<% let ctr = 0 %>
+						<% topSong.forEach((song,index) =>{ %>
+						<% ctr++ %>
+
+						<!-- <li><%= song.title_song %></li> -->
+						<!-- <%= index %> -->
+						<% if (ctr <= 12){ %>
+						
+
+
+						<div data-aos="fade-up"
+						data-aos-duration="1500"class="video col"  >
+							<div class="image fit" >
+								<img src="images/pic05.jpg" alt="" />
+								<!-- <h1><span style="color: rgb(149, 96, 199);"><%= '   ' + ctr + ') '  %> -->
+									<!-- </span><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></h1> -->
+								<div class="arrow">
+									<div class="icon fa-play"><%= ' ' +ctr + ') '+song.artist_song + ':  ' + song.title_song  %></div>
+								</div>
+							</div>
+							<!-- <a href="generic.html" class="link"><span>Click Me</span></a> -->
+						</div>
+						<% } %>
+						<% }); %>
+					</div>
+
+
+					<!-- Tab 1 -->
+
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<!-- Three -->
+	<!-- <section id="search" class="wrapper ">
+					<div class="inner">
+						<header class="align-center"> -->
+	<!-- <h2>Search Result</p> -->
+	<!-- </header> -->
+	<div id="searchResult">
+		<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
+		<script>
+			$(document).ready(function () {
+				$('#serachClickIcon').on("click", function () {
+					$('.search-container form input').fadeIn(1000);
+					$(this).hide();
+					$('.fa-close').show();
+					$("#searchResult").show();
+					$('body').css("overflow", "hidden");
+
+				});
+				$('.fa-close').on("click", function () {
+					$('.search-container form input').fadeOut(1000);
+					$(this).hide();
+					$('#serachClickIcon').show();
+					$("#searchResult").hide();
+					$('body').css("overflow", "scroll");
+				});
+				$(document).on('submit', '#SearchForm', function (e) {
+					var searchInput = $('#searchInput').val();
+					e.preventDefault();
+					$.ajax({
+						url: `https://deezerdevs-deezer.p.rapidapi.com/search?q=${searchInput}`,
+						type: 'GET',
+						headers: {
+							'x-rapidapi-host': 'deezerdevs-deezer.p.rapidapi.com',
+							'x-rapidapi-key': 'b7c9ddf4dcmsh3fed6859a77bf85p11dd80jsn396438f74ee5'
+						},
+						success: function (res) {
+							let container = $("#searchResult");
+							var searchResult = `<div  id ="carousel" >
+						  
+						
+						  
+						`
+							// let slides=["hideLeft","prevLeftSecond","prev","selected","next","nextRightSecond","hideRight"];
+
+							//console.log(res);
+
+							for (let i = 0; i < res.data.length; i++) {
+								// for(let x = 0 ; x< slides.length ; x++ ){
+								searchResult += `<div  class="search-item" style="width=50px; border:1px solid black ;"><h2 class='title'>${res.data[i].title}</h2>
+													<img  style="width:150px" src='${res.data[i].album.cover_medium}'>
+													<audio controls>
+													  <source src='${res.data[i].preview}' type="audio/mpeg">
+													</audio>
+													
+													<h3 class="text" class="album">${res.data[i].album.title}</h3>
+													<form action="/myplaylist" method="GET">
+													<input class="hidden" type="text" name="title" value="${res.data[i].title}">
+													<input class="hidden" type="text" name="album_cover_image" id="album_cover_image"
+														value="${res.data[i].album.cover_medium}">
+													<input class="hidden" type="text" name="artistName" id="artistName" value="${res.data[i].artist.name}">
+													<input class="hidden" type="text" name="preview_mp3" id="preview" value="${res.data[i].preview}">
+													<input class="hidden" type="text" name="album_title" id="album_title"
+														value="${res.data[i].album.title}">
+													<button type="submit" id="addtodatabase">Add To Playlist</button></div>
+												</form>
+						
+													`;
+								// }
+
+							}
+							searchResult += ` </div>`
+							container.html(searchResult)
+						}
+					});
+				});
+			})
+
+		</script>
+
+
+	</div>
+	<!-- </section> -->
+
+	</div>
+
+	<!-- 3 Column Video Section -->
+	<!-- <div class="flex flex-3">
+							<div class="video col">
+								<div class="image fit">
+									<img src="images/pic09.jpg" alt="" />
+									<div class="arrow">
+										<div class="icon fa-play"></div>
+									</div>
+								</div>
+								<p class="caption">
+									Cras eget lacus sed mauris scelerisque tincidunt
+								</p>
+								<a href="generic.html" class="link"><span>Click Me</span></a>
+							</div>
+							<div class="video col">
+								<div class="image fit">
+									<img src="images/pic10.jpg" alt="" />
+									<div class="arrow">
+										<div class="icon fa-play"></div>
+									</div>
+								</div>
+								<p class="caption">
+									Vivamus vulputate lacus non massa auctor lobortis
+								</p>
+								<a href="generic.html" class="link"><span>Click Me</span></a>
+							</div>
+							<div class="video col">
+								<div class="image fit">
+									<img src="images/pic11.jpg" alt="" />
+									<div class="arrow">
+										<div class="icon fa-play"></div>
+									</div>
+								</div>
+								<p class="caption">
+									Nam eu nisi non ante sodales interdum a vitae neque
+								</p>
+								<a href="generic.html" class="link"><span>Click Me</span></a>
+							</div>
+						</div> -->
+	<!-- Footer -->
+	<footer id="footer">
+		<div class="inner">
+			<div class="flex flex-3">
+				<div class="col">
+					<h3>Navigate</h3>
+					<ul class="alt" style="display: inline-block;">
+						<li><a href="#">Top of the page</a></li>
+						<li><a href="#featuredMusic">
+								<script>document.getElementById("featuredMusic").scrollIntoView();</script>Featured
+								Music</a></li>
+						<li><a href="#TopChart">Top Chart</a></li>
+
+					</ul>
+				</div>
+				<div class="col">
+					<h3>Other pages</h3>
+					<ul class="alt">
+						<li id="scollable"><a href="/lyrics">Lyrics</a>
+						</li>
+						<li><a href="/viewmylist">My Playlist</a></li>
+						<li><a href="#">About US</a></li>
+
+					</ul>
+				</div>
+				<!--<div class="col">
+							<h3>Accumsan</h3>
+							<ul class="alt">
+								<li><a href="#">Nascetur nunc varius commodo.</a></li>
+								<li><a href="#">Vis id faucibus montes tempor</a></li>
+								<li><a href="#">Massa amet lobortis vel.</a></li>
+								<li><a href="#">Nascetur nunc varius commodo.</a></li>
+							</ul>
+						</div> -->
+			</div>
+		</div>
+		<div class="copyright">
+			<ul class="icons">
+				<li><a href="#" class="icon fa-twitter"><span class="label">Twitter</span></a></li>
+				<li><a href="#" class="icon fa-facebook"><span class="label">Facebook</span></a></li>
+				<li><a href="#" class="icon fa-instagram"><span class="label">Instagram</span></a></li>
+				<!-- <li><a href="#" class="icon fa-snapchat"><span class="label">Snapchat</span></a></li> -->
+			</ul>
+			<!-- &copy; Untitled. Design: <a href="https://templated.co">TEMPLATED</a>. Images: <a href="https://unsplash.com">Coverr</a>. Video: <a href="https://coverr.co">Coverr</a>. -->
+		</div>
+	</footer>
+
+	<!-- Scripts -->
+	<!-- <script>
+		function moveToSelected(element) {
+
+			if (element == "next") {
+				var selected = $(".selected").next();
+			} else if (element == "prev") {
+				var selected = $(".selected").prev();
+			} else {
+				var selected = element;
+			}
+
+			var next = $(selected).next();
+			var prev = $(selected).prev();
+			var prevSecond = $(prev).prev();
+			var nextSecond = $(next).next();
+
+			$(selected).removeClass().addClass("selected");
+
+			$(prev).removeClass().addClass("prev");
+			$(next).removeClass().addClass("next");
+
+			$(nextSecond).removeClass().addClass("nextRightSecond");
+			$(prevSecond).removeClass().addClass("prevLeftSecond");
+
+			$(nextSecond).nextAll().removeClass().addClass('hideRight');
+			$(prevSecond).prevAll().removeClass().addClass('hideLeft');
+
+		}
+
+		// Eventos teclado
+		$(document).keydown(function (e) {
+			switch (e.which) {
+				case 37: // left
+					moveToSelected('prev');
+					break;
+
+				case 39: // right
+					moveToSelected('next');
+					break;
+
+				default: return;
+			}
+			e.preventDefault();
+		});
+
+		$('#carousel div').click(function () {
+			moveToSelected($(this));
+		});
+
+		$('#prev').click(function () {
+			moveToSelected('prev');
+		});
+
+		$('#next').click(function () {
+			moveToSelected('next');
+		});
+
+	</script> -->
+
+
+	<script src="/assets/js/jquery.min.js"></script>
+	<script src="/assets/js/jquery.scrolly.min.js"></script>
+	<script src="/assets/js/skel.min.js"></script>
+	<script src="/assets/js/util.js"></script>
+	<script src="/assets/js/main.js"></script>
+	<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+	<script>
+		AOS.init();
+	</script>
+
+
 </body>
+
 </html>

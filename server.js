@@ -1,7 +1,7 @@
 'use strict';
 require('dotenv').config();
 const flash = require('express-flash');
-
+var swiper = require('swiper');
 const express = require('express');
 const cors = require('cors');
 const request = require('request');
@@ -159,6 +159,13 @@ app.get('/', (req, res) => {
 
 });
 //======================================
+// $(document).ready(function () {
+swiper = new swiper ('.swiper-container', {
+  // Optional parameters
+  direction: 'vertical',
+  loop: true
+})
+// });
 
 
 
