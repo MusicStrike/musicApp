@@ -165,7 +165,7 @@ swiper = new swiper ('.swiper-container', {
   direction: 'vertical',
   loop: true
 })
-// });
+
 
 
 
