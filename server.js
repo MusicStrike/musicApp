@@ -8,11 +8,7 @@ const cors = require('cors');
 const request = require('request');
 let Music_API_KEY = process.env.Music_API_KEY;
 const superagent = require('superagent');
-<<<<<<< HEAD
-const PORT = process.env.PORT || 4444;
-=======
-const PORT = process.env.PORT || 7777;
->>>>>>> divz
+const PORT = process.env.PORT || 5300;
 const pg = require('pg');
 const methodOverride = require('method-override');
 let app = express();
@@ -34,9 +30,9 @@ var session = require('express-session');
 
 
 app.use(session({ cookie: { maxAge: 60000 }, 
-                  secret: 'woot',
-                  resave: false, 
-                  saveUninitialized: false}));
+secret: 'woot',
+resave: false, 
+saveUninitialized: false}));
                   
 //====================
 
@@ -131,7 +127,7 @@ app.get('/', (req, res) => {
 
 
 
-    var obj = JSON.parse(body);
+    // var obj = JSON.parse(body);
 
 
     var obj = JSON.parse(body);
@@ -151,45 +147,10 @@ app.get('/', (req, res) => {
 });
 //======================================
 
+// app.get('/', (req, res) => {
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.get('/', (req, res) => {
-
-  res.render('pages/index');
-})
+//   res.render('pages/index');
+// })
 app.get('*', (req, res) => {
 
   res.status(404).render('./pages/error', { erorr: '404 NOT FOUND' })
