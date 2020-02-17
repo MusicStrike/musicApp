@@ -5,7 +5,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="/styles/style.css" type="text/css">
+    <link rel="stylesheet" href="/styles/main.css">
+    <link rel="stylesheet" href="/styles/eeee.css">
+    <link rel="stylesheet" href="/styles/lyrics.css" type="text/css">
+    
+
+    <!-- <link rel="stylesheet" href="/styles/style.css" type="text/css"> -->
     <script src="https://kit.fontawesome.com/a177902e94.js" crossorigin="anonymous"></script>
     <!-- <link href="/styles/base.css" rel="stylesheet" type="text/css" />
     <link href="/styles/layout.css" rel="stylesheet" type="text/css" />
@@ -14,89 +19,69 @@
 </head>
 
 <body>
-    <header>
-        <a href="/">
-            <h1>My list</h1>
-        </a>
-        <a href="#"><i class="fab fa-facebook-f"></i></a>
-        <a href="#"><i class="fab fa-instagram"></i></a>
-        <a href="#"><i class="fab fa-twitter"></i></a>
-    </header>
-    <section id="shown" style="background-color: red;">
+    <header id="header">
+        <h1>
+          <a href="/">
+            <i class="fas fa-music"></i><span class="white">USIC</span> <span class="strike">STR</span><i class="fas fa-bolt"></i><span
+              class="strike">KE</span>
+          </a>
+        </h1>
+        <!-- <a href="/"><img src="https://i.imgur.com/nvEz4uW.png" alt="" srcset="" id="logo"></a> -->
+        <a href="#menu">Menu</a>
+      </header>
+      <!-- Nav -->
+      <nav id="menu">
+        <ul class="links">
+          <li><a href="/"><i class="fas fa-home"></i>&nbsp;Home</a></li>
+          <li><a href="/viewmylist"><i class="fas fa-music"></i> &nbsp;My Playlist</a></li>
+          <li><a href="/lyrics"><i class="far fa-file-audio"></i> &nbsp;Lyrics</a></li>
+        </ul>
+      </nav>
+      <main>
+    <section id="shown">
         <ul>
             <% songs.forEach(song => { %>
-            <li>
+                <a href="/edit/<%=song.id %>"><li>
                 <span style="display: none;"><%= song.id %></span>
-                <h2 class="title"><%= song.title %></h2>
+                <h4 class="title"><%= song.title %></h4>
+                <p class="album"><%= song.album_title%></p>
                 <!-- <h2 class="singer"><%= song.artist %></h2> -->
                 <img src='<%= song.album_cover_image %>'>
-                <audio controls>
+                <!-- <audio controls>
                     <source src="<%= song.preview_mp3 %>" type="audio/mpeg">
-                </audio>
-                <h3 class="album"><%= song.album_title%></h3>
+                </audio> -->
+                <div class="container-audio">
+                    <audio controls>
+                               <source src="<%= song.preview_mp3 %>" type="audio/mpeg">
+                            
+                           </audio>
+                </div>
                 <!-- <form action="/song/<%= song.id%>" method="GET"> -->
-                <a href="/edit/<%=song.id %>"> view </a>
+                 
 
 
                 <form action="/delete/<%= song.id %>?_method=DELETE" method="POST">
                     <button type="submit"> delete please </button>
                 </form>
-            </li>
+            </li> </a>
             <% }) %>
         </ul>
     </section>
 
 
 
- 
 
-    <section id="hiddenform">
-        <ul>
-            <% songs.forEach(song => { %>
-            <form  action="/update/<%= song.id %>?_method=PUT" method="POST">
-                <input  type="text" name="id" value="<%= song.id %>">
-                <br>
-                <input  type="text" name="title" value="<%= song.title %>">
-                <br>
-                <input type="text" name="album_cover_image" id="album_cover_image"
-                    value="<%= song.album_cover_image %>">
-                    <br>
-                <input type="text" name="artistName" id="artistName" value="<%= song.artistName %>">
-                <br>
-                <input type="text" name="preview_mp3" id="preview" value="<%= song.preview_mp3 %>">
-                <br>
-                <input type="text" name="album_title" id="album_title" value="<%= song.album_title %>">
-                <br>
-                <button type="submit"> update bro </button>
-            </form>
-            <form action="/delete/<%= song.id%>?_method=DELETE" method="POST">
-                <button type="submit"> delete man </button>
-            </form>
-            <% }) %>
-        </ul>
-    </section>
     <script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 
     <script>
         $(document).ready(function(){
-            alert('hello')
         })
-
- 
-        // $('#updateclick').click(showForm) ;
-        // function showForm(){
-        //   $('#hiddenform').show();
-        //   $('#shown').hide();
-        // }
-
-
-        // document.getElementById('updateclick').onclick = function () { myFunction2(); };
-        // function myFunction2() {
-        //     alert('update');
-        //     document.getElementById('hiddenform').style.display = 'block';
-            // document.getElementById('shown').style.display = 'none';
-        //}
     </script>
+      <script src="/js/jquery.min.js"></script>
+      <script src="/js/jquery.scrolly.min.js"></script>
+      <script src="/js/skel.min.js"></script>
+      <script src="/js/util.js"></script>
+      <script src="/js/main.js"></script>
 </body>
 
 </html>

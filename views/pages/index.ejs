@@ -11,9 +11,8 @@
 	<meta charset="utf-8" />
 	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<link rel="stylesheet" type="text/css" href="/css/main.css" />
-	<link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css" />
+	<!-- <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css" /> -->
 	<link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-	<script src="https://kit.fontawesome.com/a177902e94.js" crossorigin="anonymous"></script>
 	<!-- <link rel="stylesheet" href="" type="text/css"> -->
 	<!-- <link rel="stylesheet" href="assets/css/main.css" /> -->
 </head>
@@ -24,6 +23,12 @@
 	<header id="header">
 		<!-- <h1><a href="#"><img src="https://i.imgur.com/nvEz4uW.png" height="100px" width="100px"></a></h1>  -->
 		<!-- form -->
+		<h1>
+			<a href="/">
+				<i class="fas fa-music"></i><span class="white">USIC</span> <span class="strike">STR</span><i
+					class="fas fa-bolt"></i><span class="strike">KE</span>
+			</a>
+		</h1>
 		<div class="search-container">
 			<form action="/action_page.php" id="SearchForm">
 
@@ -43,9 +48,9 @@
 
 	<nav id="menu">
 		<ul class="links">
-			<li><a href="/">Home</a></li>
-			<li><a href="/lyrics">Lyrics</a></li>
-			<li><a href="/viewmylist">Playlist</a></li>
+			<li><a href="/"><i class="fas fa-home"></i>&nbsp;Home</a></li>
+			<li><a href="/viewmylist"><i class="fas fa-music"></i> &nbsp;My Playlist</a></li>
+			<li><a href="/lyrics"><i class="far fa-file-audio"></i> &nbsp;Lyrics</a></li>
 		</ul>
 	</nav>
 
@@ -143,7 +148,7 @@
 											
 											</ol>
 										</div> -->
-					<div class="tab tab-1 flex flex-3 active"  style="width: 75em;">
+					<div class="tab tab-1 flex flex-3 active" style="width: 75em;">
 						<!-- Video Thumbnail -->
 						<% let ctr = 0 %>
 						<% topSong.forEach((song,index) =>{ %>
@@ -152,17 +157,17 @@
 						<!-- <li><%= song.title_song %></li> -->
 						<!-- <%= index %> -->
 						<% if (ctr <= 12){ %>
-						
 
 
-						<div data-aos="fade-up"
-						data-aos-duration="1500"class="video col"  >
-							<div class="image fit" >
+
+						<div data-aos="fade-up" data-aos-duration="1500" class="video col">
+							<div class="image fit">
 								<img src="images/pic05.jpg" alt="" />
 								<!-- <h1><span style="color: rgb(149, 96, 199);"><%= '   ' + ctr + ') '  %> -->
-									<!-- </span><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></h1> -->
+								<!-- </span><%= "Artist: " +song.artist_song +' Song: '+ song.title_song %></h1> -->
 								<div class="arrow">
-									<div class="icon fa-play"><%= ' ' +ctr + ') '+song.artist_song + ':  ' + song.title_song  %></div>
+									<div class="icon fa-play">
+										<%= ' ' +ctr + ') '+song.artist_song + ':  ' + song.title_song  %></div>
 								</div>
 							</div>
 							<!-- <a href="generic.html" class="link"><span>Click Me</span></a> -->
@@ -324,7 +329,7 @@
 						<li id="scollable"><a href="/lyrics">Lyrics</a>
 						</li>
 						<li><a href="/viewmylist">My Playlist</a></li>
-						<li><a href="#">About US</a></li>
+						<!-- <li><a href="#">About US</a></li> -->
 
 					</ul>
 				</div>
@@ -409,8 +414,8 @@
 		});
 
 	</script> -->
-
-
+	<script src="https://kit.fontawesome.com/a177902e94.js" crossorigin="anonymous"></script>
+	<script src="https://code.jquery.com/jquery-3.4.1.js"></script>
 	<script src="/assets/js/jquery.min.js"></script>
 	<script src="/assets/js/jquery.scrolly.min.js"></script>
 	<script src="/assets/js/skel.min.js"></script>

@@ -1,13 +1,13 @@
 'use strict';
 require('dotenv').config();
 const flash = require('express-flash');
-var swiper = require('swiper');
+// var swiper = require('swiper');
 const express = require('express');
 const cors = require('cors');
 const request = require('request');
 let Music_API_KEY = process.env.Music_API_KEY;
 const superagent = require('superagent');
-const PORT = process.env.PORT || 5555;
+const PORT = process.env.PORT || 5500;
 const pg = require('pg');
 const methodOverride = require('method-override');
 let app = express();
@@ -33,16 +33,17 @@ app.use(session({
 }));
 
 
+app.use(session({ cookie: { maxAge: 60000 }, 
+secret: 'woot',
+resave: false, 
+saveUninitialized: false}));
+                  
+//====================
 
 app.set('views/pages', path.join(__dirname, 'views/pages'));
 
-
 app.get('/myplaylist', addtodatabase);
 app.delete('/delete/:id', deletesong);
-
-
-
-
 
 
 function deletesong(req, res) {
@@ -67,14 +68,12 @@ function updatesong(req, res) {
     .then(() => {
       res.redirect(`/edit/${req.params.id_song}`)
     })
-
 }
 app.get('/viewmylist', getsongs);
 function getsongs(req, res) {
   let SQL = 'SELECT * FROM Songs;';
   return client.query(SQL)
     .then(results => {
-
       res.render('pages/songs/show', { songs: results.rows });
 
     })
@@ -141,17 +140,16 @@ app.get('/', (req, res) => {
 
 
     // var obj = JSON.parse(body);
-    //console.log("this isnt",obj)
 
     var obj = JSON.parse(body);
-    // console.log("this isnt",obj)
+
 
     let topSong = obj.results.map(song => new TopChart(song))
     res.render('pages/index', { topSong: topSong });
 
   })
   function TopChart(song) {
-    // console.log("this is in constructor",song.artist_song)
+
     this.artist_song = song.artist_song
     this.title_song = song.title_song
 
@@ -160,12 +158,6 @@ app.get('/', (req, res) => {
 });
 //======================================
 // $(document).ready(function () {
-swiper = new swiper ('.swiper-container', {
-  // Optional parameters
-  direction: 'vertical',
-  loop: true
-})
-
 
 
 
@@ -174,7 +166,7 @@ app.get('/', (req, res) => {
   res.render('pages/index');
 })
 app.get('*', (req, res) => {
-  // console.log('this is for checking ', req);
+
   res.status(404).render('./pages/error', { erorr: '404 NOT FOUND' })
 });
 const client = new pg.Client(process.env.DATABASE_URL);

@@ -1,70 +1,107 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <base href="/"> 
-  <link  href="/public/style.css"></link>
-    <title>Lyrics app</title>
-    <script type="text/javascript"src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js">
-    </script>
-    <meta charset="utf-8">
-   <meta name="viewport" content="width=device-width, initial-scale=1">
-
-   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-   
-  </head>
-  <body>
- 
-    <a href="/">home</a>
+<head>
+  <meta charset="utf-8">
+  <base href="/">
+  <link rel="stylesheet" href="/styles/lyrics.css" type="text/css">
+  <link rel="stylesheet" href="/styles/main.css">
+  <title>Music Strike - Lyrics</title>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="https://kit.fontawesome.com/a177902e94.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- Header -->
+  <header id="header">
+    <h1>
+      <a href="/">
+        <i class="fas fa-music"></i><span class="white">USIC</span> <span class="strike">STR</span><i class="fas fa-bolt"></i><span
+          class="strike">KE</span>
+      </a>
+    </h1>
+    <!-- <a href="/"><img src="https://i.imgur.com/nvEz4uW.png" alt="" srcset="" id="logo"></a> -->
+    <a href="#menu">Menu</a>
+  </header>
+  <!-- Nav -->
+  <nav id="menu">
+    <ul class="links">
+      <li><a href="/"><i class="fas fa-home"></i>&nbsp;Home</a></li>
+      <li><a href="/viewmylist"><i class="fas fa-music"></i> &nbsp;My Playlist</a></li>
+      <li><a href="/lyrics"><i class="far fa-file-audio"></i> &nbsp;Lyrics</a></li>
+    </ul>
+  </nav>
+  <main>
+    <!-- <h1 class="ml3">Great Thinkerssssssssssssssssssssssssss</h1> -->
     <div class="container">
-      <div >
-        <h1 >Lyrics app</h1>
-        <br>
-        <form action="javascript:Search()" >
-          <div class=>
-            <label for="query" >Song name</label>
-            <input placeholder="Search Music " type="text" id="query" autocomplete="off" required>
-          </div>
-          <button type="submit" >Search</button>
-        </form>
-      </div>
+      <!-- <div> -->
       <br>
-
-      <div >
-        <pre id="lyrics"></pre>
+      <form action="javascript:Search()" class="search-form">
+        <div class='center'>
+          <label for="query">Search by Song name :</label>
+          <input placeholder="Search Music " type="text" id="query" autocomplete="off" required>
+        </div>
+        <button type="submit">
+          <span class="srarch-txt">Search</span>
+          <div class="loader-lyrics"></div>
+        </button>
+      </form>
+      <!-- </div> -->
+      <div id="lyricscontainer">
+        <pre id="lyrics" class="ml3"></pre>
       </div>
     </div>
-    <footer >
- 
-    </footer>
-   
-    <script type="text/javascript">
-    function Search(){  
-    var query=$('#query').val();
-    $('#lyrics').css('display','none')
-    console.log(query);
-      $.get('/getmusic/'+query,function(data,status){
+  </main>
+  <footer>
+  </footer>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/2.0.2/anime.min.js"></script>
+  <script type="text/javascript">
+    function Search() {
+      var query = $('#query').val();
+      $('#lyrics').css('display', 'none');
+      $('.loader-lyrics').show();
+      $('.srarch-txt').hide();
+      // console.log(query);
+      $.get('/getmusic/' + query, function (data, status) {
         // alert('Data Received');
-        console.log(data);
-        if(data.length<3)
-        $("#lyrics").text('Lyrics Not Found ');
-        else
-        $("#lyrics").text(data);
-        $('#lyrics').css('display','block')
+        // console.log(data);
+        if (data.length < 3)
+          $("#lyrics").text('Lyrics Not Found ');
+        else {
+          $("#lyrics").text(data);
+          $('#lyrics').fadeIn(500);
+          $('.loader-lyrics').hide();
+          $('.srarch-txt').show();
+          /*************************/
+          var textWrapper = document.querySelector('.ml3');
+          textWrapper.innerHTML = textWrapper.textContent.replace(/\S/g, "<span class='letter'>$&</span>");
+          anime.timeline({ loop: false })
+            .add({
+              targets: '.ml3 .letter',
+              opacity: [0, 1],
+              easing: "easeInOutQuad",
+              duration: 500,
+              delay: (el, i) => 20 * (i + 1)
+            });
+          /*************************/
+        }
       });
     }
-
-    document.getElementById('query').onkeypress = function(data){
-      console.log('hello',Keyboard)
-        if (!Keyboard){ Keyboard= window.event};
-        var keyCode = Keyboard.keyCode || Keyboard.which;
-        if (keyCode == '13'){
-       
-          Search();
-          return false;
-        }
+    document.getElementById('query').onkeypress = function (data) {
+      // console.log('hello', Keyboard)
+      if (!Keyboard) { Keyboard = window.event };
+      var keyCode = Keyboard.keyCode || Keyboard.which;
+      if (keyCode == '13') {
+        Search();
+        return false;
+      }
     }
-    </script>
- 
-  </body>
+  </script>
+  <script src="/js/jquery.min.js"></script>
+  <script src="/js/jquery.scrolly.min.js"></script>
+  <script src="/js/skel.min.js"></script>
+  <script src="/js/util.js"></script>
+  <script src="/js/main.js"></script>
+</body>
 </html>

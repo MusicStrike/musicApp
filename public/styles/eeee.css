@@ -1,0 +1,31 @@
+.hidden{
+    display: none;
+}
+
+#hiddenform{
+    display: none;
+}
+
+#shown ul li {
+    padding-left: 0.5em;
+    display: inline-block;
+    text-align: center;
+    border: 1px solid #292828;
+    margin-right: 18px;
+    margin-top: 60px;
+    padding: 5px;
+
+}
+#shown ul li h2{
+    margin-bottom: 0;
+}
+
+
+
+
+
+
+
+
+
+
